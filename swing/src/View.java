@@ -2,6 +2,9 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 
 public class View extends JFrame {
     private Model model;
@@ -9,6 +12,7 @@ public class View extends JFrame {
     private JPanel jos;
     private JPanel josStanga;
     private JPanel josDreapta;
+    private JLabel coordonate;
     private JLabel rosu;
     private JLabel verde;
     private JLabel albastru;
@@ -18,10 +22,14 @@ public class View extends JFrame {
 
     public View(Model model) {
         this.model = model;
-        this.setSize(400,400);
+        this.setResizable(false);
+        this.setSize(400, 400);
         this.setLayout(new BorderLayout());
         jos = new JPanel();
         sus = new JPanel();
+        coordonate = new JLabel("x = #@$^!#@, y = (&");
+        coordonate.setForeground(Color.white);
+        sus.add(coordonate);
         josStanga = new JPanel();
         josDreapta = new JPanel();
         jos.setLayout(new BoxLayout(jos, BoxLayout.X_AXIS));
@@ -35,49 +43,72 @@ public class View extends JFrame {
         josStanga.add(rosu);
         josStanga.add(verde);
         josStanga.add(albastru);
-        sr = new JSlider(0,255,0);
-        sv = new JSlider(0,255,0);
-        sa = new JSlider(0,255,0);
+        sr = new JSlider(0, 255, 0);
+        sv = new JSlider(0, 255, 0);
+        sa = new JSlider(0, 255, 0);
         josDreapta.add(sr);
         josDreapta.add(sv);
         josDreapta.add(sa);
 
         setSusColor();
         this.add(jos, BorderLayout.SOUTH);
-        this.add(sus,BorderLayout.CENTER);
+        this.add(sus, BorderLayout.CENTER);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
-    public void vListener(ChangeListener l){
+
+    public void vListener(ChangeListener l) {
         sv.addChangeListener(l);
     }
-    public void aListener(ChangeListener l){
+
+    public void aListener(ChangeListener l) {
         sa.addChangeListener(l);
     }
-    public void rListener(ChangeListener l){
+
+    public void rListener(ChangeListener l) {
         sr.addChangeListener(l);
     }
-    public int getR(){
+
+    public void mouseLis(MouseMotionListener l) {
+        sus.addMouseMotionListener(l);
+    }
+
+    public int getR() {
         return sr.getValue();
     }
-    public int getA(){
+
+    public int getA() {
         return sa.getValue();
     }
-    public int getV(){
+
+    public int getV() {
         return sv.getValue();
     }
-    public void setRosu(int val){
+
+    public void setRosu(int val) {
         rosu.setText("ROSU: " + val);
-        rosu.setForeground(new Color(model.getrVal(),0,0));
+        rosu.setForeground(new Color(model.getrVal(), 0, 0));
     }
-    public void setVerde(int val){
+
+    public void setVerde(int val) {
         verde.setText("VERDE: " + val);
-        verde.setForeground(new Color(0,model.getvVal(),0));
+        verde.setForeground(new Color(0, model.getvVal(), 0));
     }
-    public void setAlbastru(int val){
+
+    public void setAlbastru(int val) {
         albastru.setText("ALBASTRU: " + val);
-        albastru.setForeground(new Color(0,0,model.getaVal()));
+        albastru.setForeground(new Color(0, 0, model.getaVal()));
     }
-    public void setSusColor(){
+
+    public void setSusColor() {
         sus.setBackground(new Color(getR(), getV(), getA()));
+    }
+
+    public void scrieCoordonateMouse(MouseEvent e) {
+        coordonate.setText("x = " + e.getX() + ", y = " + e.getY());
+        culoareLabelCoordonate();
+    }
+
+    public void culoareLabelCoordonate() {
+        coordonate.setForeground(new Color(255 - getR(), 255 - getV(), 255 - getA()));
     }
 }
