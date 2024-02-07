@@ -67,12 +67,15 @@ public class View extends JFrame {
     }
     public void setRosu(int val){
         rosu.setText("ROSU: " + val);
+        rosu.setForeground(new Color(model.getrVal(),0,0));
     }
     public void setVerde(int val){
         verde.setText("VERDE: " + val);
+        verde.setForeground(new Color(0,model.getvVal(),0));
     }
     public void setAlbastru(int val){
         albastru.setText("ALBASTRU: " + val);
+        albastru.setForeground(new Color(0,0,model.getaVal()));
     }
     public void setSusColor(){
         sus.setBackground(new Color(getR(), getV(), getA()));
